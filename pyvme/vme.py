@@ -1,3 +1,6 @@
+from ._vmetypes import DataWidth
+
+
 class VMEModule:
     def __init__(self, controller, address):
         self.controller = controller
@@ -9,8 +12,8 @@ class VMEModule:
     def __exit__(self, type_, value, traceback):
         del self.controller
 
-    def read(self, address):
-        return self.controller.read(self.base_address + address)
+    def read(self, address, width=DataWidth.D16):
+        return self.controller.read(self.base_address + address, width=width)
 
     def read_string(self, address_start, address_end):
         return self.controller.read_string(
