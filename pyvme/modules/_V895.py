@@ -10,13 +10,11 @@ class V895(VMEModule):
         super().__init__(controller, address)
 
     def set_threshold(self, channel, value):
-        print(f"Set {0x02 * channel:x} to {value}")
         if not 0 <= channel < 16:
             raise ValueError("Channel needs to be between 0 and 15")
         if not 1 <= value <= 255:
             raise ValueError("Threshold out of range, allowed 1 to 255 (in mV)")
         self.write(0x02 * channel, value)
-        print(f"Set {0x02 * channel:x} to {value}")
 
     def set_inhibit_pattern(self, pattern):
         if not 0 <= pattern < 1 << 17:
