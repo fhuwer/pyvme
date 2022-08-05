@@ -104,7 +104,7 @@ class HVChannel:
 
     @trip_time.setter
     def trip_time(self, time):
-        self.module.write(self.CHANNEL_OFFSET * self.channel + 0x98, time / 0.1)
+        self.module.write(self.CHANNEL_OFFSET * self.channel + 0x98, int(time / 0.1))
 
     @property
     def voltage_limit(self):
@@ -120,7 +120,7 @@ class HVChannel:
 
     @ramp_down_rate.setter
     def ramp_down_rate(self, rate):
-        self.module.write(self.CHANNEL_OFFSET * self.channel + 0xA0, rate)
+        self.module.write(self.CHANNEL_OFFSET * self.channel + 0xA0, int(rate))
 
     @property
     def ramp_up_rate(self):
@@ -128,7 +128,7 @@ class HVChannel:
 
     @ramp_up_rate.setter
     def ramp_up_rate(self, rate):
-        self.module.write(self.CHANNEL_OFFSET * self.channel + 0xA4, rate)
+        self.module.write(self.CHANNEL_OFFSET * self.channel + 0xA4, int(rate))
 
     @property
     def power_down_mode(self):

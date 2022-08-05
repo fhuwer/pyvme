@@ -10,6 +10,8 @@ class V895(VMEModule):
         super().__init__(controller, address)
 
     def set_threshold(self, channel, value):
+        channel = int(channel)
+        value = int(value)
         if not 0 <= channel < 16:
             raise ValueError("Channel needs to be between 0 and 15")
         if not 1 <= value <= 255:
@@ -17,6 +19,7 @@ class V895(VMEModule):
         self.write(0x02 * channel, value)
 
     def set_inhibit_pattern(self, pattern):
+        pattern = int(pattern)
         if not 0 <= pattern < 1 << 17:
             raise ValueError("Pattern out of range, allowed are only 16 bit.")
         self.write(0x4A, pattern)
@@ -29,6 +32,7 @@ class V895(VMEModule):
             range_ (int): Range - can be 0 (for channels 0-7) or 1 (for channels 8-15)
             value (int): Time 0-255 corresponds to 5ns-40ns (non-linear)
         """
+        value = int(value)
         if not 0 <= value <= 255:
             raise ValueError("Output width out of range, allowed 0-255 (5ns-40ns)")
         if range_ == 0:
@@ -39,6 +43,7 @@ class V895(VMEModule):
             raise ValueError("Channel range needs to be 0 or 1")
 
     def set_majority_threshold(self, threshold):
+        threshold = int(threshold)
         if not 0 <= threshold <= 20:
             raise ValueError("Threshold out of range, allowed 0-20")
         self.write(0x48, int((threshold * 50 - 25) / 4))
