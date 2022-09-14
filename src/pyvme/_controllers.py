@@ -1,4 +1,4 @@
-from ctypes import cdll, c_short, c_int32, c_uint32, c_char, byref
+from ctypes import cdll, c_short, c_int32, c_uint32, c_char, byref, create_string_buffer, string_at
 from time import time
 from .exceptions import check_error
 from ._vmetypes import (
@@ -13,7 +13,10 @@ from ._vmetypes import (
 )
 
 
-lib_vme = cdll.LoadLibrary("libCAENVME.so")
+try:
+    lib_vme = cdll.LoadLibrary("libCAENVME.so")
+except OSError:
+    pass
 
 
 def locking(func):
@@ -75,7 +78,7 @@ class VMEController:
         return "".join(buffer).strip()
 
     @locking
-    def write(self, address, data):
+    def write(self, address, data, width=DataWidth.D16):
         data_ = c_uint32(data)
         check_error(
             lib_vme.CAENVME_WriteCycle(
@@ -83,7 +86,7 @@ class VMEController:
                 address,
                 byref(data_),
                 AddressModifier.A24_NON_PRIVILEGED_DATA.value,
-                DataWidth.D16.value,
+                width.value,
             )
         )
 

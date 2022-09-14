@@ -20,5 +20,5 @@ class VMEModule:
             self.base_address + address_start, self.base_address + address_end
         )
 
-    def write(self, address, data):
-        self.controller.write(self.base_address + address, data)
+    def write(self, address, data, width=DataWidth.D16):
+        self.controller.write(self.base_address + address, data, width)
